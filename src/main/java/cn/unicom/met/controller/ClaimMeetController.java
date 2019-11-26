@@ -40,6 +40,7 @@ public class ClaimMeetController {
 //        map.put("providerName", provider.getProviderName());
 
         return "index.html";
+
     }
     // 查询单个部门，属性驱动，条件查询
     @GetMapping("/get_claimMeet")
