@@ -48,6 +48,9 @@ public class ClaimMeetController {
 //        int id=Integer.parseInt(request.getParameter("id"));
         String id=request.getParameter("id");
         logger.info("id" + id);
+
+
+
         ClaimMeet claimMeet=claimMeetService.get_claimMeet(id);
         //与claimMeet.html中edit_form中的标签一一对应，uuid/name/tele
         Map<String,Object> map=new HashMap<String,Object>();
