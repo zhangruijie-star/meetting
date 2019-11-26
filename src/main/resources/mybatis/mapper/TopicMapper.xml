@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.unicom.met.mapper.TopicMapper">
+    <!--&lt;!&ndash;查询所有,分页&ndash;&gt;-->
+    <select id="getList" resultType="java.util.Map">
+        select topic_uuid,topic_title,report_time,talk_time,comment
+        from topic
+        where topic.met_uuid like '%${met_uuid}%'
+    </select>
+    <!--&lt;!&ndash;查询数量&ndash;&gt;-->
+    <!--<select id="getCount" resultType="int">-->
+        <!--SELECT COUNT(topic.name) from topic-->
+    <!--</select>-->
+
+    <!--&lt;!&ndash;条件查询-page/rows&ndash;&gt;-->
+    <!--<select id="topic_page" resultType="cn.unicom.met.entity.Topic">-->
+        <!--select * from topic limit #{startRecord},#{pageSize}-->
+    <!--</select>-->
+    <!--新增-->
+    <insert id="add_topic" parameterType="cn.unicom.met.entity.Topic">
+        insert into topic
+        VALUES (#{topic.topic_uuid},#{topic.met_uuid},#{topic.topic_title},#{topic.report_time}, #{topic.talk_time},#{topic.comment} )
+    </insert>
+    <!--&lt;!&ndash;修改&ndash;&gt;-->
+    <!--<update id="update_topic">-->
+        <!--UPDATE topic SET topic.username= #{topic.username},topic.pwd = #{topic.pwd},topic.name= #{topic.name},-->
+        <!--topic.gender= #{topic.gender},topic.email = #{topic.email},topic.tele= #{topic.tele},-->
+        <!--topic.depuuid= #{topic.depuuid},topic.post = #{topic.post}-->
+        <!--WHERE topic.uuid = #{topic.uuid}-->
+    <!--</update>-->
+    <!--&lt;!&ndash;删除&ndash;&gt;-->
+    <!--<delete id="del_topic">-->
+        <!--delete from topic where uuid=#{uuid}-->
+    <!--</delete>-->
+    <!--&lt;!&ndash;查询单个部门&ndash;&gt;-->
+    <!--<select id="get_topic" resultType="cn.unicom.met.entity.Topic" >-->
+        <!--select * from topic-->
+        <!--where  topic.uuid = #{uuid}-->
+    <!--</select>-->
+    <!--&lt;!&ndash;/////////////////////////////////&ndash;&gt;-->
+    <!--&lt;!&ndash;搜索查询topic&ndash;&gt;-->
+    <!--<select id="find_topic" resultType="cn.unicom.met.entity.Topic">-->
+        <!--select * from topic  where 1=1-->
+        <!--<if test="name!='' and name!=null ">-->
+            <!--and topic.name LIKE CONCAT(CONCAT('%', #{name}),'%')-->
+        <!--</if>-->
+        <!--<if test="tele!='' and tele!=null">-->
+            <!--and topic.tele LIKE CONCAT(CONCAT('%', #{tele}),'%')-->
+        <!--</if>-->
+        <!--limit #{startRecord},#{pageSize}-->
+    <!--</select>-->
+    <!--&lt;!&ndash;///////////////////////////////////&ndash;&gt;-->
+    <!--&lt;!&ndash;条件查询-page/rows&ndash;&gt;-->
+    <!--<select id="findCount" resultType="int" >-->
+        <!--select count(*) from topic where 1=1-->
+        <!--<if test="name!='' and name!=null ">-->
+            <!--and topic.name LIKE CONCAT(CONCAT('%', #{name}),'%')-->
+        <!--</if>-->
+        <!--<if test="tele!='' and tele!=null">-->
+            <!--and topic.tele LIKE CONCAT(CONCAT('%', #{tele}),'%')-->
+        <!--</if>-->
+
+    <!--</select>-->
+
+</mapper>
+
+

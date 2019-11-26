@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.unicom.met.mapper.ClaimMeetMapper">
+    <!--查询所有,分页-->
+    <select id="getList" resultType="cn.unicom.met.entity.ClaimMeet">
+        select *  from claimMeet limit #{startRecord},#{pageSize}
+    </select>
+    <!--查询数量-->
+    <select id="getCount" resultType="int">
+        SELECT COUNT(claimMeet.id) from claimMeet
+    </select>
+
+    <!--条件查询-page/rows-->
+    <select id="claimMeet_page" resultType="cn.unicom.met.entity.ClaimMeet">
+        select * from claimMeet limit #{startRecord},#{pageSize}
+    </select>
+    <!--新增-->
+    <insert id="add_claimMeet" parameterType="cn.unicom.met.entity.ClaimMeet">
+        insert into claimMeet
+        VALUES (  #{claimMeet.id},#{claimMeet.cause},#{claimMeet.create_sn},#{claimMeet.create_time}, #{claimMeet.next_deal_sn},#{claimMeet.total_amount},#{claimMeet.status} )
+    </insert>
+    <!--修改-->
+    <update id="update_claimMeet">
+        UPDATE claimMeet SET claimMeet.cause= #{claimMeet.cause},claimMeet.create_sn = #{claimMeet.create_sn},claimMeet.create_time= #{claimMeet.create_time},
+        claimMeet.next_deal_sn= #{claimMeet.next_deal_sn},claimMeet.total_amount = #{claimMeet.total_amount},claimMeet.status= #{claimMeet.status}
+        WHERE claimMeet.id = #{claimMeet.id}
+    </update>
+    <!--删除-->
+    <delete id="del_claimMeet">
+        delete from claimMeet where id=#{id}
+    </delete>
+    <!--查询单个部门-->
+    <select id="get_claimMeet" resultType="cn.unicom.met.entity.ClaimMeet" >
+        select * from claimMeet
+        where  claimMeet.id = #{id}
+    </select>
+    <!--/////////////////////////////////-->
+    <!--搜索查询claimMeet-->
+    <select id="find_claimMeet" resultType="cn.unicom.met.entity.ClaimMeet">
+        select * from claimMeet  where 1=1
+        <if test="name!='' and name!=null ">
+            and claimMeet.cause LIKE CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+        <if test="tele!='' and tele!=null">
+            and claimMeet.status LIKE CONCAT(CONCAT('%', #{tele}),'%')
+        </if>
+        limit #{startRecord},#{pageSize}
+    </select>
+    <!--///////////////////////////////////-->
+    <!--条件查询-page/rows-->
+    <select id="findCount" resultType="int" >
+        select count(*) from claimMeet where 1=1
+        <if test="name!='' and name!=null ">
+            and claimMeet.cause LIKE CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+        <if test="tele!='' and tele!=null">
+            and claimMeet.status LIKE CONCAT(CONCAT('%', #{tele}),'%')
+        </if>
+
+    </select>
+
+</mapper>
+
+

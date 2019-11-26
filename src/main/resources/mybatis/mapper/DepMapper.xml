@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.unicom.met.mapper.DepMapper">
+    <!--查询所有,分页-->
+    <select id="getList" resultType="cn.unicom.met.entity.Dep">
+        select *  from dep limit #{startRecord},#{pageSize}
+    </select>
+    <!--查询数量-->
+    <select id="getCount" resultType="int">
+        SELECT COUNT(dep.name) from dep
+    </select>
+
+    <!--条件查询-page/rows-->
+    <select id="dep_page" resultType="cn.unicom.met.entity.Dep">
+        select * from dep limit #{startRecord},#{pageSize}
+    </select>
+    <!--新增-->
+    <insert id="add_dep" parameterType="cn.unicom.met.entity.Dep">
+        insert into dep VALUES (  #{dep.uuid}, #{dep.name},#{dep.tele} )
+    </insert>
+    <!--修改-->
+    <update id="update_dep">
+        UPDATE dep SET dep.name= #{dep.name},dep.tele = #{dep.tele} WHERE dep.uuid = #{dep.uuid}
+    </update>
+    <!--删除-->
+    <delete id="del_dep">
+        delete from dep where uuid=#{uuid}
+    </delete>
+    <!--查询单个部门-->
+    <select id="get_dep" resultType="cn.unicom.met.entity.Dep" >
+        select * from dep
+        where  dep.uuid = #{uuid}
+    </select>
+    <!--/////////////////////////////////-->
+    <!--搜索查询dep-->
+    <select id="find_dep" resultType="cn.unicom.met.entity.Dep">
+        select * from dep  where 1=1
+        <if test="name!='' and name!=null ">
+            and dep.name LIKE CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+        <if test="tele!='' and tele!=null">
+            and dep.tele LIKE CONCAT(CONCAT('%', #{tele}),'%')
+        </if>
+        ORDER BY UUID ASC
+        limit #{startRecord},#{pageSize}
+    </select>
+    <!--///////////////////////////////////-->
+    <!--条件查询-page/rows-->
+    <select id="findCount" resultType="int" >
+        select count(*) from dep where 1=1
+        <if test="name!='' and name!=null ">
+            and dep.name LIKE CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+        <if test="tele!='' and tele!=null">
+            and dep.tele LIKE CONCAT(CONCAT('%', #{tele}),'%')
+        </if>
+
+    </select>
+
+</mapper>
+
+

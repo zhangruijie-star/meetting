@@ -1,0 +1,97 @@
+<!--th:href="@{/css/public.css}"-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>部门管理</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/ui/themes/default/easyui.css}" href="../ui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/ui/themes/icon.css}" href="../ui/themes/icon.css">
+    <script type="text/javascript" th:href="@{/ui/jquery.min.js}" src="../ui/jquery.min.js"></script>
+    <script type="text/javascript" th:href="@{/ui/jquery.easyui.min.js}" src="../ui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" th:href="@{/ui/locale/easyui-lang-zh_CN.js}" src="../ui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" th:href="@{/ui/jquery.serializejson.min.js}" src="../ui/jquery.serializejson.min.js"></script>
+    <script type="text/javascript" th:href="@{/js/crud.js}" src="../js/crud.js"></script>
+    <script type="text/javascript" th:inline="none">
+        var name="emp";
+        var columns=[[
+            {field:'uuid',title:'员工编号',width:100},
+            {field:'username',title:'用户名',width:100},
+            {field:'name',title:'姓名',width:100},
+            {field:'gender',title:'性别',width:100},
+            {field:'email',title:'邮箱',width:100},
+            {field:'tele',title:'联系号码',width:100},
+            {field:'depuuid',title:'部门编号',width:100},
+            {field:'post',title:'职位',width:100},
+            {field:'-',title:'操作',formatter: function(value,row,index){
+                    return '<a href="javascript:void(0)" onclick="edit('+row.uuid+')">修改</a> <a href="javascript:void(0)" onclick="del('+row.uuid+')">删除</a>'
+                }
+            }
+        ]]
+    </script>
+
+</head>
+<body>
+<div class="easyui-panel"  style="padding-left:4px;">
+    <div style="height:2px"></div>
+    <form id="serachForm">
+        <table>
+            <tr>
+                <td>姓名:</td>
+                <td><input name="name" ></td>
+                <td>电话:</td>
+                <td><input name="tele"></td>
+                <td><button id="btnSearch" type="button">查询</button></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div style="height:2px"></div>
+<div class="easyui-panel"  >
+    <table id="grid"  data-options="fit:true"></table>
+</div>
+
+<div id="editDlg">
+    <form id="editForm">
+        <table>
+            <tr>
+                <td>编号</td>
+                <td><input name="uuid"></td>
+            </tr>
+            <tr>
+                <td>用户名</td>
+                <td><input name="username"></td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td><input name="pwd"></td>
+            </tr>
+            <tr>
+                <td>姓名</td>
+                <td><input name="name"></td>
+            </tr>
+            <tr>
+                <td>性别</td>
+                <td><input name="gender"></td>
+            </tr>
+            <tr>
+                <td>邮箱</td>
+                <td><input name="email"></td>
+            </tr>
+            <tr>
+                <td>电话</td>
+                <td><input name="tele"></td>
+            </tr>
+            <tr>
+                <td>部门编号</td>
+                <td><input name="depuuid"></td>
+            </tr>
+            <tr>
+                <td>职位</td>
+                <td><input name="post"></td>
+            </tr>
+        </table>
+        <button id="btnSave" type="button">保存</button>
+    </form>
+</div>
+</body>
+</html>

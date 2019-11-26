@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.unicom.met.mapper.MettypeMapper">
+    <!--查询所有,分页-->
+    <select id="getList" resultType="cn.unicom.met.entity.Mettype">
+        select *  from mettype limit #{startRecord},#{pageSize}
+    </select>
+    <!--查询数量-->
+    <select id="getCount" resultType="int">
+        SELECT COUNT(mettype.name) from mettype
+    </select>
+
+    <!--条件查询-page/rows-->
+    <select id="mettype_page" resultType="cn.unicom.met.entity.Mettype">
+        select * from mettype limit #{startRecord},#{pageSize}
+    </select>
+    <!--新增-->
+    <insert id="add_mettype" parameterType="cn.unicom.met.entity.Mettype">
+        insert into mettype  VALUES (  #{mettype.uuid},#{mettype.mtype} )
+    </insert>
+    <!--修改-->
+    <update id="update_mettype">
+        UPDATE mettype SET mettype.mtype= #{mettype.mtype}  WHERE mettype.uuid = #{mettype.uuid}
+    </update>
+    <!--删除-->
+    <delete id="del_mettype">
+        delete from mettype where uuid=#{uuid}
+    </delete>
+    <!--查询单个部门-->
+    <select id="get_mettype" resultType="cn.unicom.met.entity.Mettype" >
+        select * from mettype
+        where  mettype.uuid = #{uuid}
+    </select>
+    <!--/////////////////////////////////-->
+    <!--搜索查询mettype-->
+    <select id="find_mettype" resultType="cn.unicom.met.entity.Mettype">
+        select * from mettype  where 1=1
+        <if test="mtype!='' and mtype!=null ">
+            and mettype.mtype LIKE CONCAT(CONCAT('%', #{mtype}),'%')
+        </if>
+        limit #{startRecord},#{pageSize}
+    </select>
+    <!--///////////////////////////////////-->
+    <!--条件查询-page/rows-->
+    <select id="findCount" resultType="int" >
+        select count(*) from mettype where 1=1
+        <if test="mtype!='' and mtype!=null ">
+            and mettype.mtype LIKE CONCAT(CONCAT('%', #{mtype}),'%')
+        </if>
+    </select>
+
+</mapper>
+
+

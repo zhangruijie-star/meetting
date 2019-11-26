@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会议列表</title>
+    <link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css"   href="ui/themes/icon.css">
+    <script type="text/javascript" src="ui/jquery.min.js"></script>
+    <script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript"  src="ui/jquery.serializejson.min.js"></script>
+    <script type="text/javascript" src="js/crud.js"></script>
+    <script type="text/javascript">
+        var name="dep";
+        var columns=[[
+            {field:'uuid',title:'部门编号',width:100},
+            {field:'name',title:'部门名称',width:100},
+            {field:'tele',title:'联系号码',width:100,align:'right'},
+            {field:'-',title:'操作',formatter: function(value,row,index){
+                    return '<a href="javascript:void(0)" onclick="edit('+row.uuid+')">修改</a> <a href="javascript:void(0)" onclick="del('+row.uuid+')">删除</a>'
+                }
+            }
+        ]]
+    </script>
+</head>
+<body>
+<div style="height:2px"></div>
+<table id="grid"></table>
+</body>
+</html>

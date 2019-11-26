@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.unicom.met.mapper.RoleMenuMapper">
+    <!--查询角色对应的权限-->
+    <select id="getRoleMenu" resultType="cn.unicom.met.entity.RoleMenu">
+        SELECT *  FROM rolemenu where roleuuid=#{roleid}
+    </select>
+    <!--查询角色列表-->
+    <select id="getRoleList" resultType="cn.unicom.met.entity.Role">
+        SELECT * FROM role
+    </select>
+    <!--删除某个角色id对应的权限-->
+    <delete id="deleteRole">
+    delete from rolemenu where roleuuid=#{roleid}
+    </delete>
+    <!--新增某个角色id对应的权限-->
+    <insert id="addrolemenu" parameterType="cn.unicom.met.entity.RoleMenu">
+        insert into rolemenu VALUES (#{roleid},#{menuid} )
+    </insert>
+</mapper>
+
+

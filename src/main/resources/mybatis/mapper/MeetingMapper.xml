@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.unicom.met.mapper.MeetingMapper">
+
+    <resultMap id="claimVoucher" type="cn.unicom.met.entity.Meeting">
+        <id property="uuid" column="uuid" javaType="String"/>
+        <result property="mtitle" column="mtitle" javaType="String"/>
+        <result property="mtype" column="mtype" javaType="String"/>
+        <result property="address" column="address" javaType="String"/>
+        <result property="start_time" column="start_time" javaType="java.util.Date"/>
+        <result property="end_time" column="end_time" javaType="java.util.Date"/>
+        <result property="create_uuid" column="create_uuid" javaType="String"/>
+        <result property="next_deal_uuid" column="next_deal_uuid" javaType="String"/>
+        <result property="next_deal_name" column="next_deal_name" javaType="String"/>
+        <result property="attend_met_empuuid" column="attend_met_empuuid" javaType="String"/>
+        <result property="attend_met_depuuid" column="attend_met_depuuid" javaType="String"/>
+        <result property="attend_met_empname" column="attend_met_empname" javaType="String"/>
+        <result property="attend_met_depname" column="attend_met_depname" javaType="String"/>
+        <result property="status" column="status" javaType="String"/>
+        <result property="mtext" column="mtext" javaType="String"/>
+        <result property="creater" column="cname" javaType="String"/>
+        <!--<result property="dealer" column="dname" javaType="String"/>-->
+
+        <!--<association property="creater" column="create_uuid" javaType="cn.unicom.met.entity.Emp">-->
+            <!--<result property="name" column="cname" javaType="String"/>-->
+            <!--<result property="post" column="cpost" javaType="String"/>-->
+        <!--</association>-->
+        <!--<association property="dealer" column="next_deal_uuid" javaType="cn.unicom.met.entity.Emp">-->
+            <!--<result property="name" column="dname" javaType="String"/>-->
+            <!--<result property="post" column="dpost" javaType="String"/>-->
+        <!--</association>-->
+    </resultMap>
+    <!--查询所有,分页-->
+    <select id="getList" resultType="cn.unicom.met.entity.Meeting">
+        select *  from meeting limit #{startRecord},#{pageSize}
+    </select>
+    <!--查询数量-->
+    <select id="getCount" resultType="int">
+        SELECT COUNT(meeting.uuid) from meeting
+    </select>
+
+    <!--条件查询-page/rows-->
+    <select id="meeting_page" resultType="cn.unicom.met.entity.Meeting">
+        select * from meeting limit #{startRecord},#{pageSize}
+    </select>
+    <!--新增-->
+    <insert id="add_meeting" parameterType="cn.unicom.met.entity.Meeting">
+        insert into meeting (meeting.uuid, meeting.mtitle,meeting.mtype,meeting.address,meeting.start_time,meeting.end_time,
+        meeting.create_uuid,meeting.next_deal_uuid,meeting.next_deal_name,meeting.attend_met_empuuid,meeting.attend_met_empname,
+        meeting.attend_met_depuuid,meeting.attend_met_depname,meeting.status,meeting.mtext )
+        VALUES ( #{meeting.uuid},#{meeting.mtitle},#{meeting.mtype},#{meeting.address}, #{meeting.start_time},#{meeting.end_time},
+        #{meeting.create_uuid},
+        #{meeting.next_deal_uuid},#{meeting.next_deal_name},
+        #{meeting.attend_met_empuuid},#{meeting.attend_met_empname},
+        #{meeting.attend_met_depuuid},#{meeting.attend_met_depname},
+        #{meeting.status},#{meeting.mtext} )
+    </insert>
+    <!--修改-->
+    <update id="update_meeting">
+        UPDATE meeting SET meeting.status = #{meeting.status}
+        WHERE meeting.uuid = #{meeting.uuid}
+    </update>
+    <!--<update id="update_meeting">-->
+        <!--UPDATE meeting SET meeting.mtitle= #{meeting.mtitle},meeting.mtype = #{meeting.mtype},meeting.address= #{meeting.address},-->
+        <!--meeting.start_time= #{meeting.start_time},meeting.end_time = #{meeting.end_time},meeting.create_uuid= #{meeting.create_uuid},-->
+        <!--meeting.next_deal_uuid= #{meeting.next_deal_uuid},meeting.next_deal_name= #{meeting.next_deal_name},meeting.status = #{meeting.status},-->
+        <!--meeting.attend_met_empuuid = #{meeting.attend_met_empuuid},meeting.attend_met_empname = #{meeting.attend_met_empname},-->
+        <!--meeting.attend_met_depuuid = #{meeting.attend_met_depuuid},meeting.attend_met_depname = #{meeting.attend_met_depname},-->
+        <!--meeting.mtext = #{meeting.mtext}-->
+        <!--WHERE meeting.uuid = #{meeting.uuid}-->
+    <!--</update>-->
+    <!--删除-->
+    <delete id="del_meeting">
+        delete from meeting where uuid=#{uuid}
+    </delete>
+    <!--查询单个部门-->
+    <select id="get_meeting" resultType="cn.unicom.met.entity.Meeting" >
+        select * from meeting
+        where  meeting.uuid = #{uuid}
+    </select>
+    <!--/////////////////////////////////-->
+    <!--搜索查询meeting-->
+    <select id="find_meeting" resultMap="claimVoucher">
+        select meeting.* ,cre.name cname,cre.post cpost
+--         ,dea.name dname,dea.post dpost
+        from meeting
+        join emp cre on cre.uuid=meeting.create_uuid
+--         left join emp dea on dea.uuid = meeting.next_deal_uuid
+        where 1=1
+        <if test="login_uuid!='' and login_uuid!=null ">
+            and meeting.create_uuid = #{login_uuid}
+        </if>
+        <if test="mtitle!='' and mtitle!=null ">
+            and meeting.mtitle LIKE CONCAT(CONCAT('%', #{mtitle}),'%')
+        </if>
+        <if test="mtype!='' and mtype!=null">
+            and meeting.mtype LIKE CONCAT(CONCAT('%', #{mtype}),'%')
+        </if>
+        limit #{startRecord},#{pageSize}
+    </select>
+    <!--///////////////////////////////////-->
+    <!--待审批会议 条件查询-page/rows-->
+    <select id="findNextCount" resultType="int" >
+        select count(*) from meeting where 1=1
+        <if test="login_uuid!='' and login_uuid!=null ">
+            and meeting.next_deal_uuid LIKE CONCAT(CONCAT('%', #{login_uuid}),'%')
+        </if>
+        <if test="mtitle!='' and mtitle!=null ">
+            and meeting.mtitle LIKE CONCAT(CONCAT('%', #{mtitle}),'%')
+        </if>
+        <if test="mtype!='' and mtype!=null">
+            and meeting.mtype LIKE CONCAT(CONCAT('%', #{mtype}),'%')
+        </if>
+
+    </select>
+    <!--/////////////////////////////////-->
+    <!--搜待审批会议 meeting-->
+    <select id="findNextMeeting" resultMap="claimVoucher">
+        select meeting.* ,cre.name cname,cre.post cpost
+--         ,dea.name dname,dea.post dpost
+        from meeting
+        join emp cre on cre.uuid=meeting.create_uuid
+--         left join emp dea on dea.uuid = meeting.next_deal_uuid
+        where 1=1
+        <if test="login_uuid!='' and login_uuid!=null ">
+            and meeting.next_deal_uuid LIKE CONCAT(CONCAT('%', #{login_uuid}),'%')
+        </if>
+        <if test="mtitle!='' and mtitle!=null ">
+            and meeting.mtitle LIKE CONCAT(CONCAT('%', #{mtitle}),'%')
+        </if>
+        <if test="mtype!='' and mtype!=null">
+            and meeting.mtype LIKE CONCAT(CONCAT('%', #{mtype}),'%')
+        </if>
+        limit #{startRecord},#{pageSize}
+    </select>
+    <!--///////////////////////////////////-->
+    <!--条件查询-page/rows-->
+    <select id="findCount" resultType="int" >
+        select count(*) from meeting where 1=1
+        <if test="login_uuid!='' and login_uuid!=null ">
+            and meeting.create_uuid = #{login_uuid}
+        </if>
+        <if test="mtitle!='' and mtitle!=null ">
+            and meeting.mtitle LIKE CONCAT(CONCAT('%', #{mtitle}),'%')
+        </if>
+        <if test="mtype!='' and mtype!=null">
+            and meeting.mtype LIKE CONCAT(CONCAT('%', #{mtype}),'%')
+        </if>
+
+    </select>
+</mapper>
+
+

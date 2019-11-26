@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.unicom.met.mapper.EmpMapper">
+
+
+    <!--查询用户下的权限菜单-->
+    <select id="getMenusByEmpuuid" resultType="cn.unicom.met.entity.Menu" >
+        select menu.*
+        from emp
+        left join emp_role  on emp_role.EMPUUID=emp.uuid
+        left join rolemenu  on emp_role.ROLEUUID=rolemenu.ROLEUUID
+        left join menu on rolemenu.MENUUUID=menu.MENUID
+        where emp.uuid=#{uuid}
+    </select>
+    <!--查询所有,分页-->
+    <select id="getList" resultType="cn.unicom.met.entity.Emp">
+        select *  from emp limit #{startRecord},#{pageSize}
+    </select>
+    <!--查询数量-->
+    <select id="getCount" resultType="int">
+        SELECT COUNT(emp.name) from emp
+    </select>
+
+    <!--条件查询-page/rows-->
+    <select id="emp_page" resultType="cn.unicom.met.entity.Emp">
+        select * from emp limit #{startRecord},#{pageSize}
+    </select>
+    <!--新增-->
+    <insert id="add_emp" parameterType="cn.unicom.met.entity.Emp">
+        insert into emp
+        VALUES (  #{emp.uuid},#{emp.username},#{emp.pwd},#{emp.name}, #{emp.gender},#{emp.email},#{emp.tele}, #{emp.depuuid},#{emp.post} )
+    </insert>
+    <!--修改-->
+    <update id="update_emp">
+        UPDATE emp SET emp.username= #{emp.username},emp.pwd = #{emp.pwd},emp.name= #{emp.name},
+        emp.gender= #{emp.gender},emp.email = #{emp.email},emp.tele= #{emp.tele},
+        emp.depuuid= #{emp.depuuid},emp.post = #{emp.post}
+        WHERE emp.uuid = #{emp.uuid}
+    </update>
+    <!--删除-->
+    <delete id="del_emp">
+        delete from emp where uuid=#{uuid}
+    </delete>
+    <!--查询单个员工-->
+    <select id="get_emp" resultType="cn.unicom.met.entity.Emp" >
+        select * from emp
+        where  emp.uuid = #{uuid}
+    </select>
+    <!--验证员工-->
+    <select id="login_emp" resultType="cn.unicom.met.entity.Emp" >
+        select * from emp
+        where  emp.uuid = #{uuid} and emp.pwd=#{pwd}
+    </select>
+    <!--/////////////////////////////////-->
+    <!--搜索查询emp-->
+    <select id="find_emp" resultType="cn.unicom.met.entity.Emp">
+        select * from emp  where 1=1
+        <if test="name!='' and name!=null ">
+            and emp.name LIKE CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+        <if test="tele!='' and tele!=null">
+            and emp.tele LIKE CONCAT(CONCAT('%', #{tele}),'%')
+        </if>
+        limit #{startRecord},#{pageSize}
+    </select>
+    <!--///////////////////////////////////-->
+    <!--条件查询-page/rows-->
+    <select id="findCount" resultType="int" >
+        select count(*) from emp where 1=1
+        <if test="name!='' and name!=null ">
+            and emp.name LIKE CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+        <if test="tele!='' and tele!=null">
+            and emp.tele LIKE CONCAT(CONCAT('%', #{tele}),'%')
+        </if>
+
+    </select>
+
+
+
+
+</mapper>
+
+

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>角色权限设置</title>
+    <script src="ui/jquery.min.js"></script>
+    <script src="ui/jquery.serializejson.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="ui/themes/default/easyui.css"/>
+    <link type="text/css" rel="stylesheet" href="ui/themes/icon.css"/>
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+    <script src="ui/jquery.easyui.min.js"></script>
+    <script src="ui/locale/easyui-lang-zh_CN.js"></script>
+    <script src="js/rolemenuset.js"></script>
+</head>
+<body class="easyui-layout">
+    <div data-options="region:'west',title:'角色列表',split:true" style="width:300px;height:600px">
+        <table id="grid"></table>
+    </div>
+    <div data-options="region:'center',title:'权限列表',split:true"  style="padding:4px;height: 600px">
+        <ui id="tree" class="easyui-tree"></ui>
+        <button id="btnSave">保存</button>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.unicom.met.mapper.NodeMapper">
+    <resultMap id="BaseTreeResultMap" type="cn.unicom.met.entity.DeptEmtity">
+        <result column="dept_id" property="deptId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="order_num" property="orderNum"/>
+        <collection column="dept_id" property="treeNode" javaType="java.util.ArrayList"
+                    ofType="cn.unicom.met.entity.DeptEmtity" select="getNextNodeTree"/>
+    </resultMap>
+
+    <resultMap id="NextTreeResultMap" type="cn.unicom.met.entity.DeptEmtity">
+        <result column="dept_id" property="deptId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="order_num" property="orderNum"/>
+        <collection column="dept_id" property="treeNode" javaType="java.util.ArrayList"
+                    ofType="cn.unicom.met.entity.DeptEmtity" select="getNextNodeTree"/>
+    </resultMap>
+
+    <select id="getNextNodeTree" resultMap="NextTreeResultMap">
+        SELECT
+        *
+        FROM sys_dept
+        WHERE parent_id = #{deptId}
+    </select>
+
+    <select id="getNodeTree" resultMap="BaseTreeResultMap">
+        SELECT
+        *
+        FROM sys_dept
+        WHERE parent_id = 0
+    </select>
+
+</mapper>
+
+

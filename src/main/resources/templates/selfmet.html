@@ -1,0 +1,65 @@
+<!--th:href="@{/css/public.css}"-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的会议</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/ui/themes/default/easyui.css}" href="../ui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css"  th:href="@{/ui/themes/icon.css}"  href="../ui/themes/icon.css">
+    <script type="text/javascript" th:href="@{/ui/jquery.min.js}" src="../ui/jquery.min.js"></script>
+    <script type="text/javascript" th:href="@{/ui/jquery.easyui.min.js}" src="../ui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" th:href="@{/ui/locale/easyui-lang-zh_CN.js}" src="../ui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" th:href="@{/ui/jquery.serializejson.min.js}"  src="../ui/jquery.serializejson.min.js"></script>
+    <script type="text/javascript" th:href="@{/js/crud.js}" src="../js/crud.js"></script>
+    <SCRIPT LANGUAGE="JavaScript" th:inline="none" >
+        function test(uuid){
+            location.href="detailmet/"+encodeURI(uuid);
+        }
+    </SCRIPT>
+
+    <script type="text/javascript" th:inline="none">
+        var name="meeting";
+        var columns=[[
+            {field:'uuid',title:'会议编号'},
+            {field:'mtitle',title:'会议标题'},
+            {field:'mtype',title:'会议类型'},
+            {field:'address',title:'会议地点'},
+            {field:'start_time',title:'开始时间'},
+            {field:'end_time',title:'结束时间'},
+            {field:'creater',title:'创建人'},
+            {field:'next_deal_name',title:'审核人'},
+            {field:'attend_met_depname',title:'参会部门'},
+            {field:'attend_met_empname',title:'与会人员',width:200},
+            {field:'status',title:'状态'},
+            {field:'-',title:'操作',formatter: function(value,row,index){
+                    return '<a href="javascript:void(0)" onclick="test('+row.uuid+')">查看详情</a>'
+                    // return '<a th:href="@{/provider/} + ${row.uuid}" href="detailmet.html">查看详情</a>'
+                }
+            }
+        ]]
+    </script>
+
+</head>
+<body>
+<div class="easyui-panel" style="padding-left:4px;">
+    <div style="height:2px"></div>
+    <form id="serachForm">
+        <table>
+            <tr>
+                <td>标题:</td>
+                <td><input name="mtitle" ></td>
+                <td>类型:</td>
+                <td><input name="mtype"></td>
+                <td><button id="btnSearch" type="button">查询</button></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div style="height:2px"></div>
+<div class="easyui-panel"  >
+    <table id="grid"  data-options="fit:true"></table>
+</div>
+
+
+</body>
+</html>

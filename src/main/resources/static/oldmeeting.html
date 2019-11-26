@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新增会议</title>
+
+    <link type="text/css" rel="stylesheet" href="ui/themes/default/easyui.css"/>
+    <link type="text/css" rel="stylesheet" href="ui/themes/icon.css"/>
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+    <!--<script src="js/bootstrap.js"></script>-->
+    <!--<script src="js/vue.js"></script>-->
+    <script type="text/javascript"  src="ui/jquery.serializejson.min.js"></script>
+    <script src="ui/jquery.min.js"></script>
+    <script src="ui/jquery.easyui.min.js"></script>
+    <script src="ui/locale/easyui-lang-zh_CN.js"></script>
+    <script src="js/sport01.js"></script>
+    <script>
+        /*新增数据  */
+        $('#btn_save').click(function(){
+            alert("form_jsonstr：");
+            console.log("form_jsonstr：");
+            var wlist=$('#editForm').serializeJSON();
+            var ulist=$('#unit').val();
+            var form_jsonstr=JSON.stringify(wlist);
+            // var formData = wlist.serializeJSON();
+            alert("form_jsonstr："+form_jsonstr);
+            // console.log(wlist);
+            // console.log(ulist);
+            // console.log(form_jsonstr);
+            // alert(formData);
+            // console.log("btn中的wlist......"+JSON.stringify(formData));
+            // $.ajax({
+            //     url:method+'_'+name,
+            //     data:JSON.stringify(formData),//这句话极端重要
+            //     dataType:'json',
+            //     contentType :"application/json",//这句话极端重要
+            //     type:'post',
+            //     success:function(rtn){
+            //         // $.messager.alert('提示',rtn.message,'info',function(){
+            //         //成功的hua我们要关闭窗口
+            //         $('#editDlg').dialog('close');
+            //         //刷新表格数据
+            //         $('#grid').datagrid('reload');
+            //         // });
+            //     }
+            // });
+        });
+    </script>
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true" id="useBox">
+
+
+    <div data-options="region:'center',split:true">
+        <div class="sportAll">
+            <div class="sportTop">
+                <span><input type="text"/></span><label>部</label><span><input type="text"/></span><label>号</label>
+            </div>
+            <div class="sportTit"><label>新增会议</label></div>
+            <div class="sportTable">
+                <table border="1">
+                    <tr>
+                        <td class="TailLabel01">会议类型<span class="formSpan">*</span></td>
+                        <td colspan="5"><input type="radio" name="type" checked/><span>班组会议</span>
+                            <input name="type"  type="radio"/><span>部门会议</span>
+                            <input name="type"  type="radio"/><span>公司会议</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="TailLabel01">会议标题<span class="formSpan" >*</span></td>
+                        <td colspan="5"><input type="text" class="easyui-validatebox tableInput" name="name" data-options="required:true,validType:['length[1,200]']"/></td>
+                    </tr>
+                    <tr>
+                        <td class="TailLabel01">主持人<span class="formSpan">*</span></td>
+                        <td ><input type="text" class="easyui-validatebox tableInput" name="name" data-options="required:true,validType:['length[1,100]']"/></td>
+                        <td class="TailLabel01">会议状态</td>
+                        <td ><input type="text"  class="easyui-validatebox tableInput" name="name"  value="新创建"/></td>
+                        <td class="TailLabel01">会议地点</td>
+                        <td >
+                            <select id="place" name="place" style="width:100%;height: auto" >
+                            <option >2楼</option>
+                            <option >8楼</option>
+                            <option >9楼</option>
+                            <option >10楼</option>
+                            <option >11楼</option>
+                            <option >16楼</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="TailLabel01">开始时间</td>
+                        <td colspan="2" ><input type="text" class=" easyui-datebox" /></td>
+                        <td class="TailLabel01">结束时间</td>
+                        <td colspan="2" ><input type="text" class=" easyui-datebox"/></td>
+
+                    </tr>
+                    <tr>
+                        <td class="TailLabel01">参加部门</td>
+                        <td colspan="4"><input type="text" class="tableInput"/></td>
+                        <td style="padding-left: 5px"><a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加部门</a></td>
+                    </tr>
+                    <tr>
+                        <td class="TailLabel01">与会人员</td>
+                        <td colspan="4"><input type="text" class="tableInput"/></td>
+                        <td  ><a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加员工</a></td>
+                    </tr>
+
+                    <tr>
+                        <td class="TailLabel01" colspan="6">会议内容（包括时间、地点和内容）</td>
+
+                    </tr>
+                    <tr>
+                        <td class="TailLabel01" colspan="6"><textarea class="tableArea" id="con"  >请输入会议内容</textarea></td>
+
+                    </tr>
+
+
+                </table>
+
+            <!--议题部分-->
+            <!--<div class="sportTable" id="box">-->
+                <form id="editForm">
+                    <table class="table table-bordered table-hover" id="tab_box">
+
+                        <tr th:border="0">
+                            <th class="text-center" style="width: 10%;">议题序号</th>
+                            <th class="text-center" style="width: 60%;">标题</th>
+                            <th class="text-center" style="width: 15%;">时长</th>
+                            <th class="text-center" style="width: 15%;">备注</th>
+                            <th class="text-center"><input type="button"  value="+add+" class="btn btn-primary" v-on:click="add()"/></th>
+                        </tr>
+
+                        <tr class="text-center" v-for="item in myData" id="content-tab">
+
+                            <td><input type="text" name="{{'id'+($index+1)}}" value="{{$index+1}}" style="width:90%;" /></td>
+
+                            <td>
+                                <input type="text" name="{{'item'+($index+1)}}" value="{{$index+1}}" style="width:100%;" />
+                            </td>
+                            <td>
+                                <input type="text" name="{{'amount'+(($index+0)*1+1)}}" style="width:90%"/>
+                            </td>
+                            <td>
+                                <input type="text" name="{{'comment'+($index+1)}}" style="width:90%"/>
+                            </td>
+
+                            <td>
+                                <button class="btn btn-del btn-sm" data-toggle="modal" data-target="#layer" v-on:click="nowIndex=$index">X</button>
+                            </td>
+                        </tr>
+
+                        <tr v-show="myData.length==0">
+                            <td colspan="6" class="text-center text-info">
+                                <p>暂无数据...</p>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            <!--</div>-->
+            </div>
+            <div class="sportFoot">
+                <a id="btn_save" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存会议</a>
+                <a id="btn_submit"  href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">提交会议</a>
+                <a id="btn_clear"  href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-redo'">重置会议</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--弹出框-->
+<div role="dialog" class="modal fade" id="layer" data-index="{{nowIndex}}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <h4 class="modal-title">确认删除吗？</h4>
+            </div>
+            <div class="modal-body text-right">
+                <button class="btn btn-cancel btn-sm" data-dismiss="modal">取消</button>
+                <button class="btn btn-danger btn-sm" data-dismiss="modal" v-on:click="del(nowIndex)">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    window.onload = function(){
+        new Vue({
+            el:'#tab_box',
+            data:{
+                myData:[],
+                nowIndex:-100
+            },
+            methods:{
+                add:function(){
+                    this.myData.push({
+                    })
+                },
+                del:function(n){
+                    if(n ==-2){
+                        this.myData="";
+                    }else{
+                        this.myData.splice(n,1);
+                    }
+                }
+            }
+        })
+    }
+</script>
+
+
+</body>
+</html>

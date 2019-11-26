@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>进度条实时显示</title>
+    <link rel="stylesheet" type="text/css"  href="ui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css"   href="ui/themes/icon.css">
+    <link rel="stylesheet" type="text/css"   href="ui/demo/demo.css">
+    <script type="text/javascript" src="ui/jquery.min.js"></script>
+    <script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+    <!--<script>-->
+        <!--function start(){-->
+            <!--var value = $('#p').progressbar('25');-->
+            <!--if (value < 100){-->
+                <!--value += Math.floor(Math.random() * 2);-->
+                <!--$('#p').progressbar('setValue', value);-->
+                <!--if(value<=30){-->
+                    <!--$(".progressbar-value .progressbar-text").css("background-color","#53CA22");-->
+                <!--}else if (value<=70){-->
+                    <!--$(".progressbar-value .progressbar-text").css("background-color","#EABA0A");-->
+                <!--}else if (value>70){-->
+                    <!--$(".progressbar-value .progressbar-text").css("background-color","#DF4134");-->
+                <!--}-->
+                <!--setTimeout(arguments.callee, 200);-->
+            <!--}-->
+        <!--};-->
+    <!--</script>-->
+
+</head>
+<body>
+<!--<div style="margin:20px 0;">-->
+    <!--<a href="javascript:void(0)" class="easyui-linkbutton" οnclick="start()">Start</a>-->
+<!--</div>-->
+<!--<div id="p" class="easyui-progressbar" style="width:400px;height:15px"></div>-->
+
+<h2>基本进度条组件</h2>
+
+<div class="demo-info">
+
+    <div class="demo-tip icon-tip"></div>
+
+    <div>点击下面按钮来显示进度条.</div>
+
+</div>
+
+<div style="margin:10px 0;">
+
+    <a href="#" class="easyui-linkbutton" onclick="start()">开始</a>
+
+</div>
+
+<div id="p" class="easyui-progressbar" style="width:400px;"></div>
+
+<script>
+
+    function start(){
+
+        var value = $('#p').progressbar('getValue');
+
+        if (value < 100){
+
+            value += Math.floor(Math.random() * 10);
+
+            $('#p').progressbar('setValue', value);
+
+
+            setTimeout(arguments.callee, 200);
+
+        }
+
+    };
+
+</script>
+</body>
+</html>

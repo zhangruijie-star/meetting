@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.unicom.met.mapper.ClaimMeetItemMapper">
+    <!--查询所有,分页-->
+    <select id="getList" resultType="cn.unicom.met.entity.ClaimMeetItem">
+        select *  from claimMeetItem limit #{startRecord},#{pageSize}
+    </select>
+    <!--查询数量-->
+    <select id="getCount" resultType="int">
+        SELECT COUNT(claimMeetItem.id) from claimMeetItem
+    </select>
+
+    <!--条件查询-page/rows-->
+    <select id="claimMeetItem_page" resultType="cn.unicom.met.entity.ClaimMeetItem">
+        select * from claimMeetItem limit #{startRecord},#{pageSize}
+    </select>
+    <!--新增-->
+    <insert id="add_claimMeetItem" parameterType="cn.unicom.met.entity.ClaimMeetItem">
+        insert into claimMeetItem
+        VALUES (  #{claimMeetItem.id},#{claimMeetItem.claimMeet_id},#{claimMeetItem.item},#{claimMeetItem.amount}, #{claimMeetItem.comment} )
+    </insert>
+    <!--修改-->
+    <update id="update_claimMeetItem">
+        UPDATE claimMeetItem SET claimMeetItem.claimMeet_id= #{claimMeetItem.claimMeet_id},claimMeetItem.amount = #{claimMeetItem.amount},
+        claimMeetItem.comment= #{claimMeetItem.comment}
+        WHERE claimMeetItem.id = #{claimMeetItem.id}
+    </update>
+    <!--删除-->
+    <delete id="del_claimMeetItem">
+        delete from claimMeetItem where id=#{id}
+    </delete>
+    <!--查询单个部门-->
+    <select id="get_claimMeetItem" resultType="cn.unicom.met.entity.ClaimMeetItem" >
+        select * from claimMeetItem
+        where  claimMeetItem.id = #{id}
+    </select>
+    <!--/////////////////////////////////-->
+    <!--搜索查询claimMeetItem-->
+    <select id="find_claimMeetItem" resultType="cn.unicom.met.entity.ClaimMeetItem">
+        select * from claimMeetItem  where 1=1
+        <if test="name!='' and name!=null ">
+            and claimMeetItem.item LIKE CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+        <if test="tele!='' and tele!=null">
+            and claimMeetItem.comment LIKE CONCAT(CONCAT('%', #{tele}),'%')
+        </if>
+        limit #{startRecord},#{pageSize}
+    </select>
+    <!--///////////////////////////////////-->
+    <!--条件查询-page/rows-->
+    <select id="findCount" resultType="int" >
+        select count(*) from claimMeetItem where 1=1
+        <if test="name!='' and name!=null ">
+            and claimMeetItem.item LIKE CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+        <if test="tele!='' and tele!=null">
+            and claimMeetItem.comment LIKE CONCAT(CONCAT('%', #{tele}),'%')
+        </if>
+
+    </select>
+
+</mapper>
+
+

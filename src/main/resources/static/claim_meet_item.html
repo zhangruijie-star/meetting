@@ -1,0 +1,79 @@
+<!--th:href="@{/css/public.css}"-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>议题管理</title>
+    <link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css"   href="ui/themes/icon.css">
+    <script type="text/javascript" src="ui/jquery.min.js"></script>
+    <script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript"  src="ui/jquery.serializejson.min.js"></script>
+    <script type="text/javascript" src="js/crud.js"></script>
+    <script type="text/javascript">
+        var name="claimMeetItem";
+        var columns=[[
+            {field:'id',title:'议题编号',width:100},
+            {field:'claim_meet_id',title:'会议名称',width:100},
+            {field:'item',title:'子议题',width:100,align:'right'},
+            {field:'amount',title:'时长',width:100,align:'right'},
+            {field:'comment',title:'原因备注',width:100,align:'right'},
+            {field:'-',title:'操作',formatter: function(value,row,index){
+                    return '<a href="javascript:void(0)" onclick="edit('+row.id+')">修改</a> ' +
+                        '<a href="javascript:void(0)" onclick="del('+row.id+')">删除</a>'
+                }
+            }
+        ]]
+    </script>
+
+</head>
+<body>
+<div class="easyui-panel" style="padding-left:4px;">
+    <div style="height:2px"></div>
+    <form id="serachForm">
+        <table>
+            <tr>
+                <td>议题名称</td>
+                <td><input name="item" ></td>
+            </tr>
+            <tr>
+                <td>备注</td>
+                <td><input name="comment"></td>
+            </tr>
+        </table>
+        <button id="btnSearch" type="button">查询</button>
+    </form>
+</div>
+<div style="height:2px"></div>
+<table id="grid"></table>
+
+<div   id="editDlg">
+    <form id="editForm">
+        <table>
+            <tr>
+                <td>议题编号</td>
+                <td><input name="id"></td>
+            </tr>
+            <tr>
+                <td>会议编号</td>
+                <td><input name="claimMeet_id"></td>
+            </tr>
+            <tr>
+                <td>议题名称</td>
+                <td><input name="item"></td>
+            </tr>
+            <tr>
+                <td>议题时长</td>
+                <td><input name="amount"></td>
+            </tr>
+            <tr>
+                <td>议题备注</td>
+                <td><input name="comment"></td>
+            </tr>
+        </table>
+        <button id="btnSave" type="button">保存</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新增会议</title>
+    <script type="text/javascript"  th:inline="none">
+        window.onload=function () {
+            var day = new Date();
+            var Year = 0;
+            var Month = 0;
+            var Day = 0;
+            var CurrentDate = "";
+            Year = day.getFullYear(); //支持IE和火狐浏览器.
+            Month = day.getMonth() + 1;
+            Day = day.getDate();
+            CurrentDate += Year;
+            if (Month >= 10) {
+                CurrentDate += Month;
+            }
+            else {
+                CurrentDate += "0" + Month;
+            }
+            if (Day >= 10) {
+                CurrentDate += Day;
+            }
+            else {
+                CurrentDate += "0" + Day;
+            }
+            var OrderID = CurrentDate + Math.floor(Math.random() * 1000);
+            $('#metuuid').val(OrderID);
+            console.log(OrderID);
+            // $("#met_uuid").innerText=Math.random().toString(5);
+        };
+    </script>
+    <script th:href="@{/ui/jquery.min.js}" src="../ui/jquery.min.js"></script>
+    <script th:href="@{/ui/jquery.serializejson.min.js}" src="../ui/jquery.serializejson.min.js"></script>
+
+    <link th:href="@{/ui/themes/default/easyui.css}"  type="text/css" rel="stylesheet" href="../ui/themes/default/easyui.css"/>
+    <link th:href="@{/ui/themes/icon.css}"  type="text/css" rel="stylesheet" href="../ui/themes/icon.css"/>
+    <link th:href="@{/css/main.css}"  type="text/css" rel="stylesheet" href="../css/main.css">
+    <!--议题引入js/css-->
+    <script th:href="@{/js/layui.all.js}"  src="../js/layui.all.js"></script>
+    <script th:href="@{/js/bgfun.js}"  src="../js/bgfun.js"></script>
+    <link th:href="@{/css/layui.css}"  rel="stylesheet" href="../css/layui.css">
+    <!---->
+    <script th:href="@{/js/rolemenuset.js}"  src="../js/rolemenuset.js"></script>
+</head>
+
+
+<body>
+<div class="easyui-layout" data-options="fit:true" id="useBox">
+    <div data-options="region:'center',split:true">
+        <div class="sportAll">
+
+            <div class="sportTit"><label>新增会议</label></div>
+            <form id="edit_met">
+            <div class="sportTop">
+                <label>第</label><span><input  style="text-align: center;" id="metuuid" name="uuid" value="" type="text"/></span><label>号</label>
+            </div>
+            <div class="sportTable">
+
+                <table border="1">
+
+                <tr>
+                    <td class="TailLabel01">标题<span class="formSpan">*</span></td>
+                    <td colspan="3"><input type="text" class="easyui-validatebox tableInput" id="m_title" name="mtitle" data-options="required:true,validType:['length[1,200]']"/></td>
+                    <td class="TailLabel01">创建工号</td>
+                    <td ><input type="text" class="easyui-validatebox tableInput" id="m_create_uuid" name="create_uuid" th:value="${session.login_emp.uuid}"> </input></td>
+                    <!--<td ><span id="m_create_uuid" name="create_uuid" th:value="${session.login_emp.uuid}">[[${session.login_emp.uuid}]]</span></td>-->
+                </tr>
+                <tr>
+                    <td class="TailLabel01"><a id="add_met_deal" href="javascript:void(0)" style="color: #8F5700">审核人</a><span class="formSpan">*</span></td>
+                    <td colspan="1">
+                        <input id="m_next_deal_uuid" name="next_deal_uuid" type="hidden"  class="tableInput" />
+                         <input id="m_next_deal_name" name="next_deal_name"   class="tableInput" />
+                        <!--<select id="m_next_deal_uuid" name="next_deal_uuid" class="easyui-combotree" style="width:450px;"-->
+                                <!--data-options="url:'getEmpMenuTree',required:true" multiple></select>-->
+
+                    </td>
+                    <!--<td ><input type="text" class="easyui-validatebox tableInput" id="m_next_deal_uuid"  name="-----------------next_deal_uuid" data-options="required:true,validType:['length[1,100]']"/></td>-->
+                    <!--<td ><input style="width:400px;" id="m_next_deal_uuid"  name="next_deal_uuid"/></td>-->
+
+                    <td class="TailLabel01">状态</td>
+                    <td ><input type="text" class="easyui-validatebox tableInput" name="status" value="新创建"/></td>
+                    <td class="TailLabel01">会议地点</td>
+                    <td ><input type="text" class="easyui-validatebox tableInput" id="m_address" name="address" /></td>
+                </tr>
+                <tr>
+                    <td class="TailLabel01">开始时间<span class="formSpan">*</span></td>
+                    <td ><input id="m_start_time" name="start_time" type="text" class=" easyui-datetimebox" /></td>
+                    <td class="TailLabel01">结束时间</td>
+                    <td ><input id="m_end_time" name="end_time" type="text" class=" easyui-datetimebox"/></td>
+                    <td class="TailLabel01">会议类型</td>
+                    <td >
+                        <select id="m_type" name="mtype" style="width:100%;height: auto" >
+                            <option >班组会议</option>
+                            <option >部门会议</option>
+                            <option >公司会议</option>
+                        </select>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="TailLabel01" colspan="6">会议内容</td>
+
+                </tr>
+                <tr>
+                    <td class="TailLabel01" colspan="6"><textarea id="m_text" name="mtext" class="tableArea" ></textarea></td>
+
+                </tr>
+
+                <tr>
+                    <td class="TailLabel01">参加部门</td>
+                    <td colspan="4">
+                        <!--<select id="met_dep" name="attend_met_dep" class="easyui-combotree" fit="true" style="width:450px;"-->
+                                <!--data-options="url:'getDepMenuTree',required:true" multiple></select>-->
+                        <input id="met_dep" name="attend_met_depuuid" type="hidden"  class="tableInput" />
+                        <input id="user_met_dep" name="attend_met_depname" type="text" class="tableInput"/>
+                    </td>
+                    <td  ><a id="add_met_dep" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加部门</a></td>
+                </tr>
+                <tr>
+                    <td class="TailLabel01">与会人员</td>
+                    <td colspan="4">
+                        <!--<select id="m_create_uuid" name="create_uuid" class="easyui-combotree" fit="true" style="width:600px;"-->
+                                <!--data-options="url:'getEmpMenuTree',required:true" multiple></select>-->
+                        <!--<input id="m_create_uuid" name="create_uuid" type="text" class="tableInput"/>-->
+                        <input id="met_emp" name="attend_met_empuuid" type="hidden"  class="tableInput" />
+                        <input id="user_met_emp" name="attend_met_empname" type="text" class="tableInput"/>
+                    </td>
+                    <td  ><a id="add_met_emp"  href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加人员</a></td>
+                </tr>
+            </table>
+            <!--议题管理表格s-->
+                <!--<div class="layui-container">-->
+                    <!--<div class="layui-row">-->
+                        <!--<div class="layui-form" lay-filter="freshform">-->
+                            <table class="layui-table" >
+                                <colgroup>
+                                    <!--<col width=10%>-->
+                                    <col width=5%>
+                                    <col width=45%>
+                                    <col width=5%>
+                                    <col width=5%>
+                                    <col width=35%>
+                                    <col width=5%>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <!--<th style="display: none">序号</th>-->
+                                    <!--<th>会议编号</th>-->
+                                    <th>议题序号</th>
+                                    <th>子议题</th>
+                                    <th>汇报时长</th>
+                                    <th>讨论时长</th>
+                                    <th>备注</th>
+                                    <th style="text-align: center"><button type="button" class="layui-btn add-btn">添加</button></th>
+                                </tr>
+                                </thead>
+                                <tbody class="addlists">
+                                <tr>
+                                    <!--<td style="display: none">-->
+                                        <!--<input type="text" name="number1" value="1">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text"  name="StartTime" class="layui-input">-->
+                                    <!--</td>-->
+                                    <td>
+                                        <input type="number" name="topic_uuid" class="layui-input" value="1">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="topic_title" class="layui-input">
+                                    </td>
+                                    <td>
+                                        <input type="number" name="report_time" class="layui-input">
+                                        <!--<select name="Education" lay-filter="">-->
+                                            <!--<option value="">请选择你的学历</option>-->
+                                            <!--<option value="大专及以下">大专及以下</option>-->
+                                            <!--<option value="本科">本科</option>-->
+                                            <!--<option value="研究生(硕士)">研究生(硕士)</option>-->
+                                            <!--<option value="研究生(博士)">研究生(博士)</option>-->
+                                        <!--</select>-->
+                                    </td>
+                                    <td>
+                                        <input type="number" name="talk_time" class="layui-input">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="comment" class="layui-input">
+                                        <!--<select name="Education" lay-filter="">-->
+                                            <!--<option value="">请选择您的教育类型</option>-->
+                                            <!--<option value="全日制">全日制</option>-->
+                                            <!--<option value="在职">在职</option>-->
+                                        <!--</select>-->
+                                    </td>
+                                    <td style="text-align: center"><button type="button" class="layui-btn layui-btn-danger btn-del" lay-event="del">删除</button></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--议题管理表格e-->
+            </div>
+            </form>
+            <div class="sportFoot">
+                <!--<a id="btn_save"  href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存会议</a>-->
+                <a id="btn_submit" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">提交会议</a>
+                <a id="btn_clear" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-redo'">重置会议</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--参会部门编辑框-->
+<div id="editDepDlg">
+    <div data-options="region:'center',title:'部门列表',split:true"  style="padding:4px;height: 250px">
+        <ui id="editDeptree" class="easyui-tree"></ui>
+        <a id="btnDepSave" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">确定</a>
+    </div>
+</div>
+<!--与会人员编辑框-->
+<div id="editEmpDlg">
+    <div data-options="region:'center',title:'员工列表',split:true"  style="padding:4px;height: 300px" >
+        <ui id="editEmptree" class="easyui-tree"></ui>
+        <a id="btnEmpSave" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">确定</a>
+    </div>
+</div>
+<!--审核人员编辑框-->
+<div id="editDealDlg">
+    <div data-options="region:'center',title:'审核人列表',split:true"  >
+        <ui id="editDealtree" class="easyui-tree"></ui>
+        <a id="btnDealSave" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">确定</a>
+    </div>
+</div>
+
+<script  th:href="@{/ui/jquery.easyui.min.js}"  src="../ui/jquery.easyui.min.js"></script>
+<script th:href="@{/ui/locale/easyui-lang-zh_CN.js}"  src="../ui/locale/easyui-lang-zh_CN.js"></script>
+
+
+<script>
+    //清空会议
+    $('#btn_clear').click(function () {
+        $('#m_address').val("");
+        $('#m_create_uuid').val("");
+        $('#m_next_deal_uuid').val("");
+        $('#m_text').val("");
+        $('#m_title').val("");
+        $('#m_type').val("");
+        alert("重置成功");
+    })
+</script>
+<script>
+    //保存并提交会议，改变状态值
+    $('#btn_submit').click(function () {
+
+        var meeting=$('#edit_met').serializeJSON();
+        var form_jsonstr=JSON.stringify(meeting);//这句话极端重要
+
+        console.log("meeting"+form_jsonstr);
+        $.ajax({
+            url:'submit_meeting',
+            data:form_jsonstr,
+            dataType:'json',
+            contentType :"application/json",//这句话极端重要
+            type:'post',
+            success:function(rtn){
+                // $.messager.alert('提示',rtn.message,'info',function(){
+                // });
+                $.alert.messager('提示',rtn.messag,'info');
+                console.log("提交成功");
+            }
+        });
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>处理会议</title>
+    <script th:href="@{/ui/jquery.min.js}" src="../ui/jquery.min.js"></script>
+    <script th:href="@{/ui/jquery.easyui.min.js}" src="../ui/jquery.easyui.min.js"></script>
+    <script th:href="@{/ui/locale/easyui-lang-zh_CN.js}" src="../ui/locale/easyui-lang-zh_CN.js"></script>
+    <script th:href="@{/ui/jquery.serializejson.min.js}"  src="../ui/jquery.serializejson.min.js"></script>
+    <link th:href="@{/ui/themes/default/easyui.css}" type="text/css" rel="stylesheet" href="../ui/themes/default/easyui.css"/>
+    <link th:href="@{/ui/themes/icon.css}" type="text/css" rel="stylesheet" href="../ui/themes/icon.css"/>
+    <link th:href="@{/css/main.css}" type="text/css" rel="stylesheet" href="../css/main.css">
+    <!--<script th:href="@{/js/handle_met.js}" src="../js/handle_met.js"></script>-->
+</head>
+
+<body>
+<div data-options="fit:true" id="useBox">
+    <div >
+        <div class="sportAll">
+
+            <div class="sportTit"><label>会议详情</label> </div>
+
+            <div class="sportTop">
+                <label>第</label><span><input  style="text-align: center;" id="met_uuid" name="uuid" th:value="${meeting.uuid}" type="text"/></span><label>号</label>
+            </div>
+            <div class="sportTable">
+
+                <table border="1">
+
+                    <tr>
+                        <td class="TailLabel01">标题</td>
+                        <td colspan="5"><input type="text" th:value="${meeting.mtitle}" class="easyui-validatebox tableInput" name="mtitle" data-options="required:true,validType:['length[1,200]']"/></td>
+                    </tr>
+                    <tr>
+                        <td class="TailLabel01">审核人</td>
+                        <td ><input type="text" th:value="${meeting.next_deal_uuid}"  class="easyui-validatebox tableInput" name="next_deal_uuid" /></td>
+                        <td class="TailLabel01">状态</td>
+                        <td ><input type="text" th:value="${meeting.status}" class="easyui-validatebox tableInput" name="status" /></td>
+                        <td class="TailLabel01">地点</td>
+                        <td ><input type="text" th:value="${meeting.address}"  class="easyui-validatebox tableInput" name="address" /></td>
+                    </tr>
+                    <tr>
+                        <td class="TailLabel01">开始时间</td>
+                        <td ><input type="text" th:value="${meeting.start_time}" class="easyui-validatebox tableInput" name="start_time" /></td>
+                        <td class="TailLabel01">结束时间</td>
+                        <td ><input type="text" th:value="${meeting.end_time}" class="easyui-validatebox tableInput" name="start_time" /></td>
+                        <td class="TailLabel01">会议类型</td>
+                        <td >
+                            <input type="text" th:value="${meeting.mtype}"  class="easyui-validatebox tableInput"  style="width:100%;height: auto" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="TailLabel01" colspan="6">会议内容</td>
+
+                    </tr>
+                    <tr>
+                        <td class="TailLabel01" colspan="6"><textarea name="mtext" th:text="${meeting.mtext}"  class="tableArea" ></textarea></td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="TailLabel01">参加部门</td>
+                        <td colspan="5">
+                            <input  type="text" th:value="${meeting.attend_met_depname}"  class="tableInput"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="TailLabel01">与会人员</td>
+                        <td colspan="5"><input  th:value="${meeting.attend_met_empname}" class="easyui-validatebox tableInput" type="text" /></td>
+                    </tr>
+                    <!--议题详情列表-->
+                    <tr>
+                        <td colspan="6" style="color: #00bbee;text-align: center">议题详情</td>
+                    </tr>
+                    <tr>
+                        <td class="TailLabel01">序号</td>
+                        <td colspan="2" class="TailLabel01">子议题</td>
+                        <td class="TailLabel01">汇报时长</td>
+                        <td class="TailLabel01">讨论时长</td>
+                        <td  class="TailLabel01">备注</td>
+                    </tr>
+                    <tr th:each="tip:${topicList}">
+                        <!--<tr th:each="user,userStat : ${list}">-->
+                        <!--<td th:text="${user.userName}">Onions</td>-->
+
+                        <td ><label th:text="${tip.topic_uuid}"></label></td>
+
+                        <td colspan="2" ><label th:text="${tip.topic_title}"></label></td>
+
+                        <td ><label th:text="${tip.report_time}"></label></td>
+
+                        <td ><label th:text="${tip.talk_time}"></label></td>
+
+                        <td ><label th:text="${ tip.comment}" ></label></td>
+                    </tr>
+                    <!--处理记录详情-->
+                    <tr>
+                        <td colspan="6" style="color: #00bbee;text-align: center">处理记录</td>
+                    </tr>
+                    <tr>
+                        <td class="TailLabel01">会议编号</td>
+                        <td colspan="1" class="TailLabel01">处理人</td>
+                        <td class="TailLabel01">处理时间</td>
+                        <td class="TailLabel01">处理方式</td>
+                        <td  class="TailLabel01">处理结果</td>
+                        <td  class="TailLabel01">备注</td>
+                    </tr>
+                    <tr th:each="hand:${handleList}">
+                        <!--<tr th:each="user,userStat : ${list}">-->
+                        <!--<td th:text="${user.userName}">Onions</td>-->
+
+                        <td ><label th:text="${hand.metuuid}"></label></td>
+
+                        <td colspan="1" ><label th:text="${hand.dealname}"></label></td>
+
+                        <td ><label th:text="${hand.dealtime}"></label></td>
+
+                        <td ><label th:text="${hand.dealway}"></label></td>
+
+                        <td ><label th:text="${ hand.dealresult}" ></label></td>
+                        <td ><label th:text="${ hand.comment}" ></label></td>
+                    </tr>
+                </table>
+                <form id="handle_met">
+                    <table border="1">
+                        <!--审批会议-->
+                        <tr>
+                            <td colspan="6" style="color: #00bbee;text-align: center">审批会议
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="TailLabel01">审核人</td>
+                            <td>
+                                <!--获取登陆用户的uuid-->
+                                <label id="now_dealuuid"  th:text="${session.login_emp.uuid}" ></label>
+                            </td>
+                            <td class="TailLabel01">
+                                <select id="handleway" name="dealway" style="width:100%;height: auto" class="tableInput">
+                                    <option >同意</option>
+                                    <option >拒绝</option>
+                                    <option >退回</option>
+                                </select>
+                            </td>
+                            <td colspan="3">
+                                <input  type="text" id="dealcomment" name="comment" class="tableInput"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+
+            <div class="sportFoot">
+                <a id="btn_handle" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">处理会议</a>
+                <a href="javascript:void(0)" onclick="javascript:history.back(-1);" class="easyui-linkbutton" data-options="iconCls:'icon-back'">返回</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    // 审批会议，改变状态值
+    $('#btn_handle').click(function () {
+        var jsonstr={};
+        jsonstr.metuuid=$('#met_uuid').val();
+        jsonstr.dealuuid=$('#now_dealuuid').text();
+        jsonstr.dealtime=new Date();
+        jsonstr.dealway=$('#handleway').val();
+        jsonstr.dealresult="无";
+        jsonstr.comment=$('#dealcomment').val();
+
+        // var met_uuid=$('#met_uuid').val();
+        // var dealuuid=$('#m_create_uuid').val();
+        // jsonstr.push(new Date());
+        // jsonstr.push($('#handleway').val());
+        // jsonstr.push("dealresult");
+        // jsonstr.push($('#dealcomment').val());
+
+        alert("提交后台"+jsonstr.dealuuid);
+        // var obj = eval('(' + jsonstr + ')');//由JSON字符串转换为JSON对象
+        // var obj = JSON.parse(jsonstr); //由JSON字符串转换为JSON对象
+        var form_jsonstr=JSON.stringify(jsonstr);//这句话极端重要
+        console.log("form_jsonstr..."+form_jsonstr);
+        $.ajax({
+            url:'handle_met',
+            data:form_jsonstr,
+            dataType:'json',
+            contentType:"application/json",//这句话极端重要
+            type:'post',
+            success:function(rtn){
+                $.alert.messager('提示',rtn.messag,'info');
+                console.log("提交成功");
+            }
+        });
+    });
+</script>
+</body>
+</html>

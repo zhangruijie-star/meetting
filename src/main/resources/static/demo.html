@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新增会议</title>
+    <script type="text/javascript">
+        window.onload=function () {
+            var day = new Date();
+            var Year = 0;
+            var Month = 0;
+            var Day = 0;
+            var CurrentDate = "";
+            Year = day.getFullYear(); //支持IE和火狐浏览器.
+            Month = day.getMonth() + 1;
+            Day = day.getDate();
+            CurrentDate += Year;
+            if (Month >= 10) {
+                CurrentDate += Month;
+            }
+            else {
+                CurrentDate += "0" + Month;
+            }
+            if (Day >= 10) {
+                CurrentDate += Day;
+            }
+            else {
+                CurrentDate += "0" + Day;
+            }
+            var OrderID = CurrentDate + Math.floor(Math.random() * 1000);
+            $('#met_uuid').val(OrderID);
+            console.log(OrderID);
+            // $("#met_uuid").innerText=Math.random().toString(5);
+        };
+    </script>
+    <script src="ui/jquery.min.js"></script>
+    <script src="ui/jquery.serializejson.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="ui/themes/default/easyui.css"/>
+    <link type="text/css" rel="stylesheet" href="ui/themes/icon.css"/>
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+
+</head>
+
+
+<body>
+<div class="easyui-layout" data-options="fit:true" id="useBox">
+    <div data-options="region:'center',split:true">
+        <div class="sportAll">
+
+            <div class="sportTit"><label>新增会议</label></div>
+            <form id="edit_met">
+            <div class="sportTop">
+                <label>第</label><span><input  style="text-align: center;" id="met_uuid" name="uuid" value="" type="text"/></span><label>号</label>
+            </div>
+            <div class="sportTable">
+
+                <table border="1">
+
+                <tr>
+                    <td class="TailLabel01">标题<span class="formSpan">*</span></td>
+                    <td colspan="5"><input type="text" class="easyui-validatebox tableInput" name="mtitle" data-options="required:true,validType:['length[1,200]']"/></td>
+                </tr>
+                <tr>
+                    <td class="TailLabel01">审核人<span class="formSpan">*</span></td>
+                    <td ><input type="text" class="easyui-validatebox tableInput" name="next_deal_uuid" data-options="required:true,validType:['length[1,100]']"/></td>
+                    <td class="TailLabel01">状态</td>
+                    <td ><input type="text" class="easyui-validatebox tableInput" name="status" value="新创建"/></td>
+                    <td class="TailLabel01">地点</td>
+                    <td ><input type="text" class="easyui-validatebox tableInput" name="address" /></td>
+                </tr>
+                <tr>
+                    <td class="TailLabel01">开始时间<span class="formSpan">*</span></td>
+                    <td ><input name="start_time" type="text" class=" easyui-datetimebox" /></td>
+                    <td class="TailLabel01">结束时间</td>
+                    <td ><input name="end_time" type="text" class=" easyui-datetimebox"/></td>
+                    <td class="TailLabel01">会议类型</td>
+                    <td >
+                        <select name="mtype" style="width:100%;height: auto" >
+                            <option >班组会议</option>
+                            <option >部门会议</option>
+                            <option >公司会议</option>
+                        </select>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="TailLabel01" colspan="6">会议内容</td>
+
+                </tr>
+                <tr>
+                    <td class="TailLabel01" colspan="6"><textarea name="mtext" class="tableArea" ></textarea></td>
+
+                </tr>
+
+                <tr>
+                    <td class="TailLabel01">参加部门</td>
+                    <td colspan="4">
+                        <input id="met_dep" type="text" class="tableInput"/>
+                    </td>
+                    <td  ><a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加部门</a></td>
+                </tr>
+                <tr>
+                    <td class="TailLabel01">与会人员</td>
+                    <td colspan="4"><input id="met_emp" type="text" class="tableInput"/></td>
+                    <td  ><a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加人员</a></td>
+                </tr>
+            </table>
+
+            </div>
+            </form>
+            <div class="sportFoot">
+                <a id="btn_save"  href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存会议</a>
+                <a id="btn_update" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">提交会议</a>
+                <a id="btn_clear" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-redo'">重置会议</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script src="ui/jquery.easyui.min.js"></script>
+<script src="ui/locale/easyui-lang-zh_CN.js"></script>
+
+<script>
+    $('#btn_save').click(function () {
+
+        var metlist=$('#edit_met').serializeJSON();
+        var form_jsonstr=JSON.stringify(metlist);
+        alert("alert:"+form_jsonstr);
+        console.log("metlist"+form_jsonstr);
+    })
+</script>
+</body>
+</html>

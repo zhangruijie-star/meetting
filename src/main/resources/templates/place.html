@@ -1,0 +1,61 @@
+<!--th:href="@{/css/public.css}"-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>部门管理</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/ui/themes/default/easyui.css}" href="../ui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/ui/themes/icon.css}"  href="../ui/themes/icon.css">
+    <script type="text/javascript" th:href="@{/ui/jquery.min.js}" src="../ui/jquery.min.js"></script>
+    <script type="text/javascript" th:href="@{/ui/jquery.easyui.min.js}" src="../ui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" th:href="@{/ui/locale/easyui-lang-zh_CN.js}" src="../ui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" th:href="@{/ui/jquery.serializejson.min.js}"  src="../ui/jquery.serializejson.min.js"></script>
+    <script type="text/javascript" th:href="@{/js/crud.js}" src="../js/crud.js"></script>
+    <script type="text/javascript" th:inline="none">
+        var name="place";
+        var columns=[[
+            {field:'uuid',title:'编号',width:100},
+            {field:'address',title:'地点',width:100},
+            {field:'-',title:'操作',formatter: function(value,row,index){
+                    return '<a href="javascript:void(0)" onclick="edit('+row.uuid+')">修改</a> <a href="javascript:void(0)" onclick="del('+row.uuid+')">删除</a>'
+                }
+            }
+        ]]
+    </script>
+
+</head>
+<body>
+<div class="easyui-panel" style="padding-left:4px;">
+    <div style="height:2px"></div>
+    <form id="serachForm">
+        <table>
+            <tr>
+                <td>地点:</td>
+                <td><input name="address" ></td>
+                <td><button id="btnSearch" type="button">查询</button></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div style="height:2px"></div>
+<div class="easyui-panel"  >
+    <table id="grid"  data-options="fit:true"></table>
+</div>
+
+<div id="editDlg">
+    <form id="editForm">
+        <table>
+            <tr>
+                <td>编号</td>
+                <td><input name="uuid"></td>
+            </tr>
+            <tr>
+                <td>地点</td>
+                <td><input name="address"></td>
+            </tr>
+        </table>
+        <button id="btnSave" type="button">保存</button>
+    </form>
+</div>
+</body>
+</html>

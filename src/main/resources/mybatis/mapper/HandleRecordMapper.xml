@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.unicom.met.mapper.HandleRecordMapper">
+    <resultMap id="selectHandleRecord" type="cn.unicom.met.entity.HandleRecord">
+        <result property="metuuid" column="metuuid" javaType="String"/>
+        <result property="dealname" column="handlename" javaType="String"/>
+        <result property="dealuuid" column="dealuuid" javaType="String"/>
+        <result property="dealtime" column="dealtime" javaType="java.util.Date"/>
+        <result property="dealway" column="dealway" javaType="String"/>
+        <result property="dealresult" column="dealresult" javaType="String"/>
+        <result property="comment" column="comment" javaType="String"/>
+    </resultMap>
+    <!--查询会议下的处理记录-->
+    <select id="selectByMetuuid" resultMap="selectHandleRecord">
+        SELECT metuuid,dealuuid,dealtime,dealway,dealresult,comment,emp.username as handlename
+        FROM handlerecord,emp
+        where handlerecord.metuuid=#{metuuid} and handlerecord.dealuuid=emp.uuid
+        order by handlerecord.dealtime desc
+    </select>
+
+    <!--新增某个会议id处理记录-->
+    <insert id="addhandlerecord" parameterType="cn.unicom.met.entity.HandleRecord">
+        insert into handlerecord (metuuid,dealuuid,dealtime,dealway,dealresult,comment)
+        VALUES (#{metuuid},#{dealuuid},#{dealtime},#{dealway},#{dealresult},#{comment} )
+    </insert>
+</mapper>
+
+

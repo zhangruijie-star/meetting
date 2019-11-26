@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="css/layui.css">
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-form" lay-filter="freshform">
+            <table class="layui-table" lay-filter="test">
+                <colgroup>
+                    <col width="150">
+                    <col width="200">
+                    <col width="200">
+                    <col width="200">
+                    <col width="200">
+                    <col width="200">
+                    <col width="150">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th style="display: none">序号</th>
+                    <th>会议编号</th>
+                    <th>议题序号</th>
+                    <th>子议题</th>
+                    <th>汇报时长</th>
+                    <th>讨论时长</th>
+                    <th>备注</th>
+                    <th style="text-align: center"><button type="button" class="layui-btn add-btn">添加</button></th>
+                </tr>
+                </thead>
+                <tbody class="addlists">
+                <tr>
+                    <td style="display: none">
+                        <input type="text" name="number1" value="1">
+                    </td>
+                    <td>
+                        <input type="text"  name="StartTime" class="layui-input" id="test1" placeholder="yyyy-MM-dd">
+                    </td>
+                    <td>
+                        <input type="text" name="EndTime" class="layui-input" id="test2" placeholder="yyyy-MM-dd">
+                    </td>
+                    <td>
+                        <input type="text" name="Major" class="layui-input">
+                    </td>
+                    <td>
+                        <select name="Education" lay-filter="">
+                            <option value="">请选择你的学历</option>
+                            <option value="大专及以下">大专及以下</option>
+                            <option value="本科">本科</option>
+                            <option value="研究生(硕士)">研究生(硕士)</option>
+                            <option value="研究生(博士)">研究生(博士)</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" name="SchType" class="layui-input">
+                    </td>
+                    <td>
+                        <select name="Education" lay-filter="">
+                            <option value="">请选择您的教育类型</option>
+                            <option value="全日制">全日制</option>
+                            <option value="在职">在职</option>
+                        </select>
+                    </td>
+                    <td style="text-align: center"><button type="button" class="layui-btn layui-btn-danger btn-del" lay-event="del">删除</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="js/layui.all.js"></script>
+<script src="ui/jquery.min.js"></script>
+<script src="js/bgfun.js"></script>
+</body>
+</html>

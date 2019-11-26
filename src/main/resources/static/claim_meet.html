@@ -1,0 +1,105 @@
+<!--th:href="@{/css/public.css}"-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>会议管理</title>
+    <link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css"   href="ui/themes/icon.css">
+    <script type="text/javascript" src="ui/jquery.min.js"></script>
+    <script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript"  src="ui/jquery.serializejson.min.js"></script>
+    <script type="text/javascript" src="js/crud.js"></script>
+    <script type="text/javascript">
+        var name="claimMeet";
+        var columns=[[
+            {field:'id',title:'会议编号',width:100},
+            {field:'cause',title:'会议标题',width:100},
+            {field:'create_sn',title:'创建人',width:100},
+            {field:'create_time',title:'创建时间',width:100},
+            {field:'next_deal_sn',title:'审核人',width:100},
+            {field:'total_amount',title:'总时长',width:100},
+            {field:'status',title:'状态',width:100},
+            {field:'-',title:'操作',formatter: function(value,row,index){
+                    return '<a href="javascript:void(0)" onclick="edit('+row.id+')">修改</a> ' +
+                        '<a href="javascript:void(0)" onclick="del('+row.id+')">删除</a>' +
+                        ' <a href="javascript:void(0)" onclick="topic('+row.id+')" >新增议题</a>'
+                }
+            }
+        ]];
+        /* 详情数据 */
+        function topic(id){
+            $.ajax({
+                url: "claimMeet"+'?id=' + id,
+                dataType: 'json',
+                type: 'get',
+                success:function(rtn){
+                    // $.messager.alert("提示",rtn.message,'info',function(){
+                    //刷新表格数据
+                    // $('#grid').datagrid('reload');
+                    // });
+                    console.log("成功跳转");
+                }
+            });
+        }
+    </script>
+
+</head>
+<body>
+<div class="easyui-panel" style="padding-left:4px;">
+    <div style="height:2px"></div>
+    <form id="serachForm">
+        <table>
+            <tr>
+                <td>会议标题</td>
+                <td><input name="name" ></td>
+            </tr>
+            <tr>
+                <td>会议状态</td>
+                <td><input name="tele"></td>
+            </tr>
+        </table>
+        <button id="btnSearch" type="button">查询</button>
+    </form>
+</div>
+<div style="height:2px"></div>
+<table id="grid"></table>
+
+<div  id="editDlg">
+    <form id="editForm">
+        <table>
+            <tr>
+                <td>编号</td>
+                <td><input name="id"></td>
+            </tr>
+            <tr>
+                <td>会议标题</td>
+                <td><input name="cause"></td>
+            </tr>
+            <tr>
+                <td>创建人</td>
+                <td><input name="create_sn"></td>
+            </tr>
+            <tr>
+                <td>创建时间</td>
+                <td><input name="create_time"></td>
+            </tr>
+            <tr>
+                <td>处理人</td>
+                <td><input name="next_deal_sn"></td>
+            </tr>
+            <tr>
+                <td>总时长</td>
+                <td><input name="total_amount"></td>
+            </tr>
+            <tr>
+                <td>会议状态</td>
+                <td><input name="status"></td>
+            </tr>
+        </table>
+        <button id="btnSave" type="button">保存</button>
+    </form>
+</div>
+</body>
+</html>
